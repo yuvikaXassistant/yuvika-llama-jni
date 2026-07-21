@@ -28,6 +28,11 @@ set(LLAMA_BUILD_TOOLS OFF CACHE BOOL "" FORCE)
 set(LLAMA_CURL OFF CACHE BOOL "" FORCE)
 set(GGML_LLAMAFILE OFF CACHE BOOL "" FORCE)
 
+# No OpenMP — libomp.so is not a standard Android system library, so
+# depending on it would break loading on-device. Falls back to plain
+# pthreads (built into Android/bionic), which llama.cpp supports fine.
+set(GGML_OPENMP OFF CACHE BOOL "" FORCE)
+
 # ARM-specific kernels: on for arm64-v8a (all target devices have NEON/dotprod
 # capable CPUs on any phone from the last several years).
 if (ANDROID_ABI STREQUAL "arm64-v8a")
