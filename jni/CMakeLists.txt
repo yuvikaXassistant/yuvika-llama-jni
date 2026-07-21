@@ -12,6 +12,12 @@ project(yuvika_llama_jni CXX C)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Force static libs for llama/ggml so everything merges into ONE
+# self-contained libllama_jni.so — no separate libllama.so/libggml*.so
+# to copy into jniLibs alongside it.
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 # Keep the binary small and CPU-only — no GPU backends, no examples/tools,
 # no server, no curl dependency (model download is handled in-app already
 # by LocalLLMEngine.java's downloadModel(), not by llama.cpp's downloader).
